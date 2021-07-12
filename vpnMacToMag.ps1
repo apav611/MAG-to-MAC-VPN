@@ -17,8 +17,8 @@ $magVNetName  = "vnet-vpn-test"
 $magRG = "rg-vpn-test"
 $magLocation = "usdodeast"
 $magGWSubName = "GatewaySubnet"
-$magVNetPrefix1 = "10.2.0.0/16"
-$magGWSubPrefix = "10.2.255.0/27"
+$magVNetPrefix1 = "10.1.0.0/16"
+$magGWSubPrefix = "10.1.255.0/27"
 $magGWName = "gw-vpn-tes"
 $magGWIPName = "pip-vpngw-test"
 $magGWIPconfName = "config-vpngw-test"
@@ -28,7 +28,7 @@ $magConnectionName = "MAC-to-MAG"
 
 #region Execute in MAC
 #
-# Login to MAG
+# Login to MAC
 Connect-AzAccount
 
 # Create a resource group
@@ -59,8 +59,6 @@ $macGwpip = New-AzPublicIpAddress -Name $macGWIPName `
             -ResourceGroupName $macRG `
             -Location $macLocation `
             -AllocationMethod Dynamic
-
-$macPip = (Get-AzPublicIpAddress -Name $macGWIPName).IpAddress
 
 $macSubnet = Get-AzVirtualNetworkSubnetConfig -Name $macGWSubName `
                         -VirtualNetwork $macVnet
@@ -113,8 +111,6 @@ $maggwpip = New-AzPublicIpAddress -Name $magGWIPName `
             -Location $magLocation `
             -AllocationMethod Dynamic
 
-$magPip = (Get-AzPublicIpAddress -Name $magGWIPName).IpAddress
-
 # Create the gateway IP address configuration
 $magvnet = Get-AzVirtualNetwork -Name $magVNetName `
           -ResourceGroupName $magRG
@@ -139,6 +135,8 @@ New-AzVirtualNetworkGateway -Name $magGWName `
 
 #region Execute in MAC
 Connect-AzAccount
+
+$macPip = (Get-AzPublicIpAddress -Name $macGWIPName).IpAddress
 
 New-AzLocalNetworkGateway -Name $macLNGName `
                           -ResourceGroupName $macRG `
@@ -165,6 +163,8 @@ New-AzVirtualNetworkGatewayConnection -Name $macConnectionName `
 #region Execute in MAG
 # LNG in MAG
 Connect-AzAccount -EnvironmentName AzureUSGovernment
+
+$magPip = (Get-AzPublicIpAddress -Name $magGWIPName).IpAddress
 
 New-AzLocalNetworkGateway -Name $magLNGName `
                           -ResourceGroupName $magRG `
