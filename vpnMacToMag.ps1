@@ -1,4 +1,5 @@
-#region Declare MAC variables
+#region Declare variables
+# MAC variables
 $macVNetName  = "vnet-vpn-test"
 $macRG = "rg-vpn-test"
 $macLocation = "East US"
@@ -10,9 +11,8 @@ $macGWIPName = "pip-vpngw-test"
 $macGWIPconfName = "config-vpngw-test"
 $macLNGName = "MAG"
 $macConnectionName = "MAC-to-MAG"
-#endregion
 
-#region Declare MAG variables
+# MAG variables
 $magVNetName  = "vnet-vpn-test"
 $magRG = "rg-vpn-test"
 $magLocation = "usdodeast"
@@ -27,6 +27,7 @@ $magConnectionName = "MAC-to-MAG"
 #endregion
 
 #region Execute in MAC
+#
 # Login to MAG
 Connect-AzAccount
 
